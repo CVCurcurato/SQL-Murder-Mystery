@@ -19,10 +19,75 @@ FROM person
 WHERE address_street_name = "Northwestern Dr"
 
 -- Witness 1 is named Morty Schapiro, details below
--- id      name	          license_id      address_number	   address_street_name	  ssn
--- 14887	Morty Schapiro	118009	        4919	             Northwestern Dr	     111564949
+-- id	name	license_id	address_num	address_street_name	ssn
+-- 14887	Morty Schapiro	118009	4919	Northwestern Dr	111564949
 
-Step 2b: This query finds Witness 1
-SELECT id, name, license_id, MAX(address_number) AS address_num, address_street_name, ssn
+-- Step 2b: This query finds Witness 2
+SELECT *
 FROM person
-WHERE address_street_name = "Northwestern Dr"
+WHERE name LIKE "Annabel%"
+AND address_street_name = "Franklin Ave"
+
+-- Witness 2 is named Annabel Miller, details below
+-- id	name	license_id	address_number	address_street_name	ssn
+-- 16371	Annabel Miller	490173	103	Franklin Ave	318771143
+
+-- Step 3: Retrieve interview info
+SELECT *
+FROM interview
+WHERE person_id = 16371
+OR person_id = 14887
+
+-- Reveals that Annabel saw the killer at her gym and that Morty recognized that he was a gold member with info on his bag and car plate
+-- person_id	transcript
+-- 14887	I heard a gunshot and then saw a man run out. He had a "Get Fit Now Gym" bag. The membership number on the bag started with "48Z". Only gold members have those bags. The man got into a car with a plate that included "H42W".
+-- 16371	I saw the murder happen, and I recognized the killer from my gym when I was working out last week on January the 9th.
+
+-- Step 4: Find gym members and join with check in times
+SELECT id, person_id, name, check_in_date, check_in_time, check_out_time
+FROM get_fit_now_member
+LEFT JOIN get_fit_now_check_in
+ON membership_id = id
+WHERE membership_status = "gold"
+AND check_in_date = 20180109
+AND check_in_time <= 1600
+AND check_out_time >= 1700
+GROUP BY 1,2,3,4
+
+-- Reveals Jeremy Bowers and Joe Germuska as likely suspects
+-- id	person_id	name	check_in_date	check_in_time	check_out_time
+-- 48Z55	67318	Jeremy Bowers	20180109	1530	1700
+-- 48Z7A	28819	Joe Germuska	20180109	1600	1730
+-- 90081	16371	Annabel Miller	20180109	1600	1700
+
+-- Step 5a: Find suspect license info
+SELECT *
+FROM person
+WHERE id = 28819
+OR id = 67318
+-- id	name	license_id	address_number	address_street_name	ssn
+-- 28819	Joe Germuska	173289	111	Fisk Rd	138909730
+-- 67318	Jeremy Bowers	423327	530	Washington Pl, Apt 3A	871539279
+
+-- Step 5b: Find car info with license info
+SELECT *
+FROM drivers_license
+WHERE id = 173289
+OR id = 423327
+
+-- 
+-- id	age	height	eye_color	hair_color	gender	plate_number	car_make	car_model
+-- 423327	30	70	brown	brown	male	0H42W2	Chevrolet	Spark LS
+
+
+
+
+
+
+
+
+
+
+
+
+  
