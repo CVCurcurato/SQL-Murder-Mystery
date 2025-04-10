@@ -5,7 +5,7 @@ This sequence of scripts is meant to help show not only how to solve this proble
 A crime has taken place and the detective needs your help. The detective gave you the crime scene report, but you somehow lost it. 
 You vaguely remember that the crime was a ​murder​ that occurred sometime on ​Jan.15, 2018​ and that it took place in ​SQL City​. Start by retrieving the corresponding crime scene report from the police department’s database.
 
-Step 1: This query retrieves the crime scene reports relevant to the only clue we have in the beginning
+**Step 1: This query retrieves the crime scene reports relevant to the only clue we have in the beginning**
 
 ```
 SELECT *
