@@ -1,0 +1,28 @@
+--A crime has taken place and the detective needs your help. The detective gave you the crime scene report, but you somehow lost it. 
+-- You vaguely remember that the crime was a ​murder​ that occurred sometime on ​Jan.15, 2018​ and that it took place in ​SQL City​. Start by retrieving the corresponding crime scene report from the police department’s database.
+
+-- Step 1: This query retrieves the crime scene reports relevant to the only clue we have in the beginning
+SELECT *
+FROM crime_scene_report
+WHERE type = "murder"
+AND city = "SQL City"
+AND date = 20180115
+
+-- Reveals witnesses
+-- Witness 1 Lives at the last house on "Northwestern Dr"
+-- Witness 2 is named Annabel and lives somewhere on "Franklin Ave"
+
+
+-- Step 2a: This query finds Witness 1
+SELECT id, name, license_id, MAX(address_number) AS address_num, address_street_name, ssn
+FROM person
+WHERE address_street_name = "Northwestern Dr"
+
+-- Witness 1 is named Morty Schapiro, details below
+-- id      name	          license_id      address_number	   address_street_name	  ssn
+-- 14887	Morty Schapiro	118009	        4919	             Northwestern Dr	     111564949
+
+Step 2b: This query finds Witness 1
+SELECT id, name, license_id, MAX(address_number) AS address_num, address_street_name, ssn
+FROM person
+WHERE address_street_name = "Northwestern Dr"
