@@ -9,7 +9,7 @@ You vaguely remember that the crime was a ​murder​ that occurred sometime on
 
 **Step 1: This query retrieves the crime scene reports relevant to the only clue we have in the beginning**
 
-```
+```sql
 SELECT *
 FROM crime_scene_report
 WHERE type = "murder"
@@ -24,7 +24,7 @@ Result - Reveals witnesses
 
 **Step 2a: This query finds Witness 1**
 
-```
+```sql
 SELECT id, name, license_id, MAX(address_number) AS address_num, address_street_name, ssn
 FROM person
 WHERE address_street_name = "Northwestern Dr"
@@ -36,7 +36,7 @@ Result - Witness 1 is named Morty Schapiro, details below
 
 **Step 2b: This query finds Witness 2**
 
-```
+```sql
 SELECT *
 FROM person
 WHERE name LIKE "Annabel%"
@@ -49,7 +49,7 @@ Result - Witness 2 is named Annabel Miller, details below
 
 **Step 3: Retrieve interview info**
 
-```
+```sql
 SELECT *
 FROM interview
 WHERE person_id = 16371
@@ -63,7 +63,7 @@ Result - Reveals that Annabel saw the killer at her gym and that Morty recognize
 
 **Step 4a: Find out what time Annabel went to the gym on January 9th, 2018**
 
-```
+```sql
 SELECT id, person_id, name, check_in_date, check_in_time, check_out_time
 FROM get_fit_now_member
 LEFT JOIN get_fit_now_check_in
@@ -78,7 +78,7 @@ Result - Annabel was present between 4 and 5pm (1600 - 1700)
 
 **Step 4b: Find gym members that were present during the same time range as Annabel**
 
-```
+```sql
 SELECT id, person_id, name, check_in_date, check_in_time, check_out_time
 FROM get_fit_now_member
 LEFT JOIN get_fit_now_check_in
@@ -99,7 +99,7 @@ Result - Reveals Jeremy Bowers and Joe Germuska as likely suspects
 
 **Step 5a: Find suspect license info**
 
-```
+```sql
 SELECT *
 FROM person
 WHERE id = 28819
@@ -113,7 +113,7 @@ Result - Finds license info
 
 **Step 5b: Find car info with license info (join to include names and personal id)**
 
-```
+```sql
 SELECT name, p.id AS person_id, d.id, age, height, eye_color, hair_color, gender, plate_number, car_make, car_model 
 FROM drivers_license AS d
 JOIN person AS p
@@ -132,7 +132,7 @@ Result - ID match with Jeremy Bowers, suspect pool increased just in case
 
 **Step 6: Submit suspect Jeremy Bowers**
 
-```
+```sql
 INSERT INTO solution VALUES (1, 'Jeremy Bowers');    
 SELECT value FROM solution;
 ```
@@ -144,7 +144,7 @@ Result - Jeremy confirmed to be the murderer but their is an additional challeng
 
 **Step 7: Query Jeremy Bowers transcript**
 
-```
+```sql
 SELECT *
 FROM interview
 WHERE person_id = 67318
@@ -156,7 +156,7 @@ Result - Details found on mastermind
 
 **Step 8a: Match person and car info**
 
-```
+```sql
 SELECT name, ssn, p.id AS person_id, d.id, age, height, eye_color, hair_color, gender, plate_number, car_make, car_model 
 FROM drivers_license AS d
 JOIN person AS p
@@ -178,7 +178,7 @@ Result - 3 similar suspects
 
 **Step 8b: Check financial details for high income**
 
-```
+```sql
 SELECT name, I.ssn, annual_income
 FROM income AS I
 JOIN person AS P
@@ -193,7 +193,7 @@ Result - Regina no longer suspect
 
 **Step 8c: Check facebook event checkins for December 2017**
 
-```
+```sql
 SELECT p.name, f.person_id, event_id, event_name, f.date
 FROM facebook_event_checkin AS f
 JOIN person AS p
@@ -212,7 +212,7 @@ Result - Miranda Priestly visited, 3 times in December 2017
  
 **Step 9: Submit suspect Miranda Priestly**
 
-```
+```sql
 INSERT INTO solution VALUES (1, 'Miranda Priestly');    
 SELECT value FROM solution;
 ```
